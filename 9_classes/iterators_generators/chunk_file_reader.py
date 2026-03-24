@@ -1,8 +1,10 @@
+# Reading a file in chunks using generators
+
 def read_in_chunks(filename, chunk_size):
     with open(filename, 'rb') as f:
         while True:
             chunk = f.read(chunk_size)
-            if not chunk: # Am ajuns la sfarsitul fisierului
+            if not chunk: # Reached end of file
                 break
             yield chunk.decode('utf-8')
 
