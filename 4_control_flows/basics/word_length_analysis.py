@@ -6,3 +6,12 @@
 
 # Example output
 # Apple - 5 Banana - 6 Cherry - 6 Date - 4 Elderberry - 10
+
+# Ciprian Serban
+def word_count(words):
+    for word in words:
+        print(f"{word}={len(word)},")
+    print()
+
+words = ["Lemn", "Castravete", "Avion", "Enciclopedie", "Pix", "Zidari", "Gandac", "Crocodil"]
+word_count(words)
