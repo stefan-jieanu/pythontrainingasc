@@ -6,7 +6,7 @@
 # and write a program that returns a list that contains only the elements that are common
 # between the lists (without duplicates). Make sure your program works on two lists of different sizes.
 
-
+# Ciprian Serban
 def common_elements(x, y):
     return list(set(x) & set(y))
 
