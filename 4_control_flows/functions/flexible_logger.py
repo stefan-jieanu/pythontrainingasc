@@ -46,3 +46,15 @@
 # Output:
 # AUTH [INFO] User login
 # AUTH [INFO] Session started
+
+# Ciprian Serban
+def log_messages(*messages, **options):
+    level = options.get("level", "INFO")
+    prefix = options.get("prefix", "")
+    uppercase = options.get("uppercase", False)
+
+    for message in messages:
+        if uppercase:
+            message = message.upper()
+        tag = f"{prefix} [{level}]" if prefix else f"[{level}]"
+        print(f"{tag} {message}")
