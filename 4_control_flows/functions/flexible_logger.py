@@ -46,3 +46,31 @@
 # Output:
 # AUTH [INFO] User login
 # AUTH [INFO] Session started
+
+# def log_messages(*messages, **options):
+# Requirements
+# *messages
+# Accepts any number of log messages.
+# Each message should be printed on a new line.
+
+def log_messages(*messages, **options):
+    level = options.get("level", "INFO")
+    prefix = options.get("prefix", "")
+    uppercase = options.get("uppercase", False)
+    for message in messages:
+        if uppercase:
+            message = message.upper()
+        print(f"{prefix} [{level}] {message}\n")
+
+log_messages("Server started", "Listening on port 8000")
+log_messages(
+    "disk almost full",
+    "cleanup recommended",
+    level="warning",
+    uppercase=True
+)
+log_messages(
+    "User login",
+    "Session started",
+    prefix="AUTH"
+)
