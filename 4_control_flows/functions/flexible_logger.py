@@ -46,3 +46,36 @@
 # Output:
 # AUTH [INFO] User login
 # AUTH [INFO] Session started
+
+
+def log_messages(*messages, **options):
+    for item in messages:
+        log = item
+        level = "INFO"
+
+        if(options.get('level')): level = options['level']
+        if(options.get('uppercase') and isinstance(options.get('uppercase'), bool)): log = log.upper()
+
+        log = f"[{level}] {log}"
+        if(options.get('prefix')): log = f"{options['prefix']} {log}"
+
+        print(log)
+
+
+# Example 1:
+log_messages("Server started", "Listening on port 8000")
+
+# Example 2
+log_messages(
+    "disk almost full",
+    "cleanup recommended",
+    level="warning",
+    uppercase=True
+)
+
+# Example 3
+log_messages(
+    "User login",
+    "Session started",
+    prefix="AUTH"
+)

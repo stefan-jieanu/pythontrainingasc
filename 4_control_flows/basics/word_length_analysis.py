@@ -6,3 +6,11 @@
 
 # Example output
 # Apple - 5 Banana - 6 Cherry - 6 Date - 4 Elderberry - 10
+
+
+def describer(words):
+    for word in words:
+        print(f"{word} - {len(word)}")
+
+words = ["Apple", "Banana", "Cherry", "Date", "Elderberry"]
+describer(words)
