@@ -1,6 +1,11 @@
 from typing import TypedDict
 from functools import reduce
 
+class Person(TypedDict):
+  name: str
+  age: int
+  hobbies: list[str]
+
 # We have a list of dictionaries, in which each dict represents a person. That dict will then have three key-value pairs:
 # - name
 # - age
@@ -10,7 +15,7 @@ from functools import reduce
 
 # For example, here is a list of people:
 
-all_people = [{'name':'Reuven', 'age':48, 'hobbies':['Python', 'cooking', 'reading']},
+all_people: list[Person] = [{'name':'Reuven', 'age':48, 'hobbies':['Python', 'cooking', 'reading']},
               {'name':'Atara', 'age':27, 'hobbies':['horses', 'cooking', 'art', 'reading']},
               {'name':'Shikma', 'age':13, 'hobbies':['Python', 'piano', 'cooking', 'reading']},
               {'name':'Amotz', 'age':60, 'hobbies':['biking', 'cooking']}]
@@ -21,14 +26,9 @@ all_people = [{'name':'Reuven', 'age':48, 'hobbies':['Python', 'cooking', 'readi
 # (2) Return a set of the different hobbies enjoyed by people in our database.
 # (3) Count how many hobbies each person has
 
-class Person(TypedDict):
-  name: str
-  age: int
-  hobbies: list[str]
-
 
 #1
-def get_avg_age(people: list[Person]) -> int:
+def get_avg_age(people: list[Person]) -> float:
   ages = [p["age"] for p in people]
   return sum(ages) / len(ages)
 

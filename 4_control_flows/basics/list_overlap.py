@@ -6,7 +6,7 @@
 # and write a program that returns a list that contains only the elements that are common 
 # between the lists (without duplicates). Make sure your program works on two lists of different sizes.
 
-def list_overlap(list1: list[int], list2: list[int]) -> list[int]:
+def list_overlap(list1: list[int], list2: list[int]) -> set[int]:
   return set(list1) & set(list2)
 
 print(list_overlap(

@@ -17,4 +17,4 @@ def check_name(name: str) -> bool:
 
 print(check_name("MyName"))
 
-print(check_name({"name": "MyName"}))
+#print(check_name({"name": "MyName"}))
