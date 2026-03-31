@@ -30,7 +30,7 @@ def average_age(people):
     return age_sum / len(people)
 
 def average_age_list_comprehension(people):
-    return sum(person['age'] for person in people) / len(people)
+    return sum([person['age'] for person in people]) / len(people)
 
 print("(1) Return the average age of all people, or (optionally) all people under a given age.",average_age(all_people))
 print("(1) Return the average age of all people, or (optionally) all people under a given age.",average_age_list_comprehension(all_people))
