@@ -46,3 +46,35 @@
 # Output:
 # AUTH [INFO] User login
 # AUTH [INFO] Session started
+
+
+def log_messages(*messages: str | int, **options: str | bool) -> None:
+  if not messages:
+    return
+  
+  level = str(options.get("level", "INFO"))
+  prefix = str(options.get("prefix", ""))
+  uppercase = bool(options.get("uppercase", False))
+
+  for message in messages:
+    print(f"{prefix + ' ' if prefix else ''}[{level}] {str(message).upper() if uppercase else message}")
+
+
+log_messages("Server started", "Listening on port 8000")
+
+log_messages(
+  "disk almost full",
+  "cleanup recommended",
+  level="warning",
+  uppercase=True
+)
+log_messages(
+  "User login",
+  "Session started",
+  prefix="AUTH"
+)
+log_messages("System rebooted", level="ERROR", uppercase=True)
+
+log_messages("This is a test info message")
+
+log_messages(prefix="AUTH")

@@ -2,3 +2,8 @@
 # A palindrome is a string that reads the same forward and backward. 
 # For example, "madam" is a palindrome, while "hello" is not.
 
+def is_polindrome(word: str) -> bool:
+  return word == word[::-1]
+
+print(is_polindrome('notapolindrome'))
+print(is_polindrome('asddsa'))
