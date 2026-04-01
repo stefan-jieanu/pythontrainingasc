@@ -1,5 +1,8 @@
 # Scrieti un decorator numit log_time care sa afiseze ora, minutul, secunda la care a rulat o functie.
 
+import time
+
+
 def log_time(func):
     def wrapper(*args, **kwargs):
         start_time = time.time()
@@ -12,3 +15,5 @@ def log_time(func):
 @log_time
 def my_function():
     print("Hello, world!")
+
+my_function()
