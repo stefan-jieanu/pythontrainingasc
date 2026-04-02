@@ -26,3 +26,18 @@
 
 # Expected output:
 # https://api.example.com/users/123?active=True&format=json
+
+def build_request(url, *path_segments, **query_params):
+    path = "/".join(path_segments)
+    query_string = "&".join(f"{key}={value}" for key, value in query_params.items())
+    
+    if path:
+        url += f"/{path}"
+    if query_string:
+        url += f"?{query_string}"
+    
+    return url
+
+print(build_request("https://api.example.com", "products"))
+
+print(build_request("https://api.example.com", "users", "123", active=True, format="json"))
