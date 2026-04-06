@@ -51,3 +51,98 @@
 #    gl.guests()
 
 # and get a list of all guests, sorted first by table number, then by last name, and finally by first name.
+
+class Person:
+    def __init__(self, first, last):
+        self.first = first
+        self.last = last
+
+    def __repr__(self):
+        return f"Person('{self.first}', '{self.last}')"
+
+    def __eq__(self, other):
+        return self.first == other.first and self.last == other.last
+
+    def __hash__(self):
+        return hash((self.first, self.last))
+
+class TableFull(Exception):
+    def __init__(self, table):
+        super().__init__(f"Table {table} is full.")
+
+class GuestList:
+    def __init__(self):
+        self.guests = {}
+        self.tables = {}
+        self.max_table_size = 10
+    
+    def assign(self, person, table):
+        # Remove from old table if already assigned
+        if person in self.guests:
+            old_table = self.guests[person]
+            if old_table is not None and old_table in self.tables:
+                self.tables[old_table].remove(person)
+
+        if table is not None:
+            if table not in self.tables:
+                self.tables[table] = []
+            if len(self.tables[table]) >= self.max_table_size:
+                raise TableFull(table)
+            self.tables[table].append(person)
+        self.guests[person] = table
+
+    def __len__(self):
+        return len(self.guests)
+
+    def table(self, table_number):
+        return self.tables.get(table_number, [])
+    
+    def unassigned(self):
+        return [person for person, table in self.guests.items() if table is None]
+    
+    def free_space(self):
+        return {table: self.max_table_size - len(guests) for table, guests in self.tables.items()}
+
+    def get_guests(self):
+        assigned = [(person, table) for person, table in self.guests.items() if table is not None]
+        unassigned = [(person, float('inf')) for person, table in self.guests.items() if table is None]
+        
+        all_guests = assigned + unassigned
+        all_guests.sort(key=lambda x: (x[1], x[0].last, x[0].first))
+        
+        return [person for person, table in all_guests]
+
+
+gl = GuestList()    
+gl.assign(Person('Waylon', 'Dalton'), 1)    
+gl.assign(Person('Justine', 'Henderson'), 1)    
+gl.assign(Person('Abdullah', 'Lang'), 3)   
+gl.assign(Person('Marcus', 'Cruz'), 1)   
+gl.assign(Person('Thalia', 'Cobb'), 2)   
+gl.assign(Person('Mathias', 'Little'), 2)    
+gl.assign(Person('Eddie', 'Randolph'), None)    
+gl.assign(Person('Angela', 'Walker'), 2)    
+gl.assign(Person('Lia', 'Shelton'), 3)    
+gl.assign(Person('Hadassah', 'Hartman'), None)    
+gl.assign(Person('Joanna', 'Shaffer'), 3)    
+gl.assign(Person('Jonathon', 'Sheppard'), 2)
+
+
+# (1)
+print("Total guests:", len(gl))
+
+# (2)
+print("Table 1:", gl.table(1))
+
+# (3)
+print("Unassigned guests:", gl.unassigned())
+
+# (4)
+p = Person('Joanna', 'Shaffer')
+gl.assign(p, 2)
+
+# (5)
+print("Free space:", gl.free_space())
+
+# (6)
+print("All guests:", gl.get_guests())
