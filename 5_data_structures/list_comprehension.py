@@ -18,41 +18,31 @@
 # (2) Return a set of the different hobbies enjoyed by people in our database.
 # (3) Count how many hobbies each person has
 
-from functools import reduce
-
 
 all_people = [{'name':'Reuven', 'age':48, 'hobbies':['Python', 'cooking', 'reading']},
                 {'name':'Atara', 'age':27, 'hobbies':['horses', 'cooking', 'art', 'reading']},
                 {'name':'Shikma', 'age':13, 'hobbies':['Python', 'piano', 'cooking', 'reading']},
                 {'name':'Amotz', 'age':60, 'hobbies':['biking', 'cooking']}]
 
-# Really loved lambda exprexsions so this is why I wanted to first start with this <3
-# (1) Return the average age of all people
-age_average = sum(person['age'] for person in all_people) / len(all_people)
-print(f"Age average: {age_average}");
-
-# (1.b) or (optionally) all people under a given age.
-age_limit = 40
-filter_list = list(filter(lambda person: person['age'] < age_limit, all_people))
-age_average_with_limit = sum(person['age'] for person in filter_list) / len(filter_list)
-print(f"Age average with limit: {age_average_with_limit}")
-
-# Solution using a function
 # (1) Return the average age of all people, or (optionally) all people under a given age.
 def age_average_func(people, max_age=None):
     if max_age is not None:
-        people = list(filter(lambda person: person['age'] < max_age, people))
-    
+        people = [person for person in people if person['age'] < max_age]
     return sum(person['age'] for person in people) / len(people)
 
-print(f"(v2) Age average: {age_average_func(all_people)}")
-print(f"(v2) Age average with limit {age_average_func(all_people, 40)}")
-
+print(f"Age average: {age_average_func(all_people)}")
+print(f"Age average with limit {age_average_func(all_people, 40)}")
 
 # (2) Return a set of the different hobbies enjoyed by people in our database.
-people_hobbies = set(reduce(lambda acc, value: acc + value['hobbies'], all_people, []))
-print(f"People hobbies: {",".join(people_hobbies)}")
+def hobbies_set_func(people):
+    hobbies = set()
+    for person in people:
+        for hobby in person['hobbies']:
+            hobbies.add(hobby)
+    return hobbies
+
+print(f"Hobbies set: {hobbies_set_func(all_people)}")
 
 # (3) Count how many hobbies each person has
-hobby_counts = {person['name']: len(person['hobbies']) for person in all_people}
+hobby_counts = [f"{person['name']}: {len(person['hobbies'])}" for person in all_people]
 print(f"Each person hobbies: {hobby_counts}")

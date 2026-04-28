@@ -51,3 +51,113 @@
 #    gl.guests()
 
 # and get a list of all guests, sorted first by table number, then by last name, and finally by first name.
+
+class TableFull(Exception):
+    def __str__(self):
+        return "Table is full!"
+
+
+class Person:
+    def __init__(self, first, last):
+        self.name = (first, last)
+        
+    def __eq__(self, value):
+        return self.name == value.name
+
+class GuestList:
+    def __init__(self):
+        self.list = []
+
+    def __number_of_person_at_table(self, table):
+        persons_at_table = 0
+        for person in self.list:
+            if(person and person["table"] == table):
+                persons_at_table += 1
+
+        return persons_at_table
+    
+    def __person_at_table(self, table):
+        persons_at_table = []
+        for person in self.list:
+            if(person and person["table"] == table):
+                persons_at_table.append(person)
+
+        return persons_at_table
+    
+    def __get_person(self, person):
+        for assigned_person in self.list:
+            if(assigned_person["person"] == person):
+                return assigned_person
+    
+    def get_total_persons(self):
+        return len(self.list)
+
+    def get_number_of_persons_by_table(self, table):
+        return self.__number_of_person_at_table(table)
+    
+    def get_persons_by_table(self, table):
+        return self.__person_at_table(table)
+
+    def assign(self, person: Person, table):
+        if(table is not None and self.__number_of_person_at_table(table) > 10):
+            raise TableFull()
+
+        assigned_person = self.__get_person(person)
+        if(assigned_person):
+            assigned_person["table"] = table
+        else:
+            person_info = {
+                "person": person,
+                "table": table
+            }
+
+            self.list.append(person_info)
+
+
+    def free_space(self):
+        tables = list({item["table"] for item in self.list})
+        salon = {}
+        for table in tables:
+            if(table is None):
+                salon[table] = {"unasigned": self.__number_of_person_at_table(table)}
+            else:
+                salon[table] = {"remaining": 10 - self.__number_of_person_at_table(table)}
+        
+        return salon
+
+    def guests(self):
+        return sorted(
+            self.list,
+            key=lambda x: (
+                x["table"] if x["table"] is not None else 999,
+                x["person"].name[1],
+                x["person"].name[0]
+            )
+        )
+
+
+gl = GuestList()    
+gl.assign(Person('Waylon', 'Dalton'), 1)    
+gl.assign(Person('Justine', 'Henderson'), 1)    
+gl.assign(Person('Abdullah', 'Lang'), 3)   
+gl.assign(Person('Marcus', 'Cruz'), 1)   
+gl.assign(Person('Thalia', 'Cobb'), 2)   
+gl.assign(Person('Mathias', 'Little'), 2)    
+gl.assign(Person('Eddie', 'Randolph'), None)    
+gl.assign(Person('Angela', 'Walker'), 2)    
+gl.assign(Person('Lia', 'Shelton'), 3)    
+gl.assign(Person('Hadassah', 'Hartman'), None)    
+gl.assign(Person('Joanna', 'Shaffer'), 3)    
+gl.assign(Person('Joanna', 'Shaffer'), 2)    
+gl.assign(Person('Jonathon', 'Sheppard'), 2)
+
+print(f"Total Persons: {gl.get_total_persons()}")
+
+print(f"Number of persons at table two: {gl.get_number_of_persons_by_table(2)}")
+
+print(f"Number of unasigned: {gl.get_number_of_persons_by_table(None)}")
+
+print(f"Unasigned persons: {gl.get_persons_by_table(None)}")
+
+print(gl.free_space())
+print(gl.guests())
