@@ -1,11 +1,5 @@
 from rest_framework import serializers
-from .models import SitterProfile, SitterService, Service, Pet, Booking
-
-
-class ServiceSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Service
-        fields = ("id", "name", "description")
+from .models import SitterProfile, SitterService, Pet, Booking
 
 
 class SitterServiceSerializer(serializers.ModelSerializer):

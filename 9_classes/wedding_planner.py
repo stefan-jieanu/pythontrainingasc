@@ -57,21 +57,20 @@ from collections import namedtuple
 
 Person = namedtuple('Person', ['first', 'last'])
 
-MAX_TABLE_SIZE = 10
-
-
 class TableFull(Exception):
     pass
 
 
 class GuestList:
+    MAX_TABLE_SIZE = 10
+
     def __init__(self):
         self._guests = {}  # Person -> table number (or None)
 
     def assign(self, person, table):
         if table is not None:
             seats_taken = sum(1 for p, t in self._guests.items() if t == table and p != person)
-            if seats_taken >= MAX_TABLE_SIZE:
+            if seats_taken >= self.MAX_TABLE_SIZE:
                 raise TableFull(f"Table {table} is full.")
         self._guests[person] = table
 
@@ -86,7 +85,7 @@ class GuestList:
 
     def free_space(self):
         tables = {t for t in self._guests.values() if t is not None}
-        return {t: MAX_TABLE_SIZE - sum(1 for v in self._guests.values() if v == t) for t in tables}
+        return {t: self.MAX_TABLE_SIZE - sum(1 for v in self._guests.values() if v == t) for t in tables}
 
     def guests(self):
         return sorted(
