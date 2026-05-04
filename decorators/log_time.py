@@ -1,1 +1,18 @@
 # Scrieti un decorator numit log_time care sa afiseze ora, minutul, secunda la care a rulat o functie.
+import datetime
+
+
+def log_time(func):
+    def wrapper(*args, **kwargs):
+        now = datetime.datetime.now()
+        print(f"Ran at {now.hour:02}:{now.minute:02}:{now.second:02}")
+        return func(*args, **kwargs)
+    return wrapper
+
+
+@log_time
+def say_hello():
+    print("Hello!")
+
+
+say_hello()
