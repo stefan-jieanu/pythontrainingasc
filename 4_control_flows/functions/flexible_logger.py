@@ -46,3 +46,24 @@
 # Output:
 # AUTH [INFO] User login
 # AUTH [INFO] Session started
+
+
+def log_messages(*messages, **options):
+    level = options.get("level", "INFO")
+    prefix = options.get("prefix", "")
+    uppercase = options.get("uppercase", False)
+
+    for msg in messages:
+        if uppercase:
+            msg = msg.upper()
+        line = f"[{level}] {msg}"
+        if prefix:
+            line = f"{prefix} {line}"
+        print(line)
+
+
+log_messages("Server started", "Listening on port 8000")
+print()
+log_messages("disk almost full", "cleanup recommended", level="warning", uppercase=True)
+print()
+log_messages("User login", "Session started", prefix="AUTH")
