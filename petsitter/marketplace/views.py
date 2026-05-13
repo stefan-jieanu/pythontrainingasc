@@ -32,7 +32,7 @@ def sitter_detail(request, pk):
 @permission_classes([IsAuthenticated])
 def pet_list(request):
     if request.method == "GET":
-        pets = Pet.objects.filter(owner=request.user)
+        pets = Pet.objects.all()
         return Response(PetSerializer(pets, many=True).data)
     serializer = PetSerializer(data=request.data, context={"request": request})
     if serializer.is_valid():
@@ -45,7 +45,7 @@ def pet_list(request):
 @permission_classes([IsAuthenticated])
 def booking_list(request):
     if request.method == "GET":
-        bookings = Booking.objects.filter(owner=request.user)
+        bookings = Booking.objects.all()
         return Response(BookingSerializer(bookings, many=True).data)
     serializer = BookingSerializer(data=request.data, context={"request": request})
     if serializer.is_valid():
